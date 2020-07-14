@@ -30,6 +30,8 @@ namespace prs2server.Models {
         public int UserId { get; set; }
         public virtual User User { get; set; }
 
+        public virtual IEnumerable<Requestline> Requestlines { get; set; }
+
         public Request() { }
     }
 }

@@ -19,6 +19,20 @@ namespace prs2server.Controllers {
             _context = context;
         }
 
+        private async Task RecalculateRequestTotal(int requestid) {
+            var request = await _context.Requests.FindAsync(requestid);
+            if(request == null) throw new Exception($"RecalculateRequestTotal: Request not found for id {requestid}");
+            request.Total = (from r in request.Requestlines
+                             select new { LineTotal = r.Quantity * r.Product.Price })
+                            .Sum(x => x.LineTotal);
+            await _context.SaveChangesAsync();
+        } 
+
+        private async Task RefreshRequestline(Requestline requestline) {
+            _context.Entry(requestline).State = EntityState.Unchanged;
+            await _context.Requestlines.FindAsync(requestline.Id);
+        }
+
         // GET: api/Requestlines
         [HttpGet]
         public async Task<ActionResult<IEnumerable<Requestline>>> GetRequestlines() {
@@ -58,6 +72,8 @@ namespace prs2server.Controllers {
                 }
             }
 
+            await RefreshRequestline(requestline);
+            await RecalculateRequestTotal(requestline.Request.Id);
             return NoContent();
         }
 
@@ -68,6 +84,9 @@ namespace prs2server.Controllers {
         public async Task<ActionResult<Requestline>> PostRequestline(Requestline requestline) {
             _context.Requestlines.Add(requestline);
             await _context.SaveChangesAsync();
+
+            await RefreshRequestline(requestline);
+            await RecalculateRequestTotal(requestline.Request.Id);
 
             return CreatedAtAction("GetRequestline", new { id = requestline.Id }, requestline);
         }

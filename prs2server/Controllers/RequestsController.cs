@@ -34,7 +34,7 @@ namespace prs2server.Controllers {
         // PUT: api/Requests/Review
         [HttpPut("review")]
         public async Task<IActionResult> SetRequestToReview(Request request) {
-            request.Status = StatusReview;
+            request.Status = request.Total <= 50 ? StatusApproved : StatusReview;
             return await PutRequest(request.Id, request);
         }
 
