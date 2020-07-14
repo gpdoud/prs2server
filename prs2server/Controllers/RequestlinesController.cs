@@ -29,7 +29,7 @@ namespace prs2server.Controllers {
         } 
 
         private async Task RefreshRequestline(Requestline requestline) {
-            _context.Entry(requestline).State = EntityState.Unchanged;
+            _context.Entry(requestline).State = EntityState.Detached;
             await _context.Requestlines.FindAsync(requestline.Id);
         }
 
@@ -73,7 +73,7 @@ namespace prs2server.Controllers {
             }
 
             await RefreshRequestline(requestline);
-            await RecalculateRequestTotal(requestline.Request.Id);
+            await RecalculateRequestTotal(requestline.RequestId);
             return NoContent();
         }
 
