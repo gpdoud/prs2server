@@ -1,0 +1,33 @@
+<Project Sdk="Microsoft.NET.Sdk.Web">
+
+  <PropertyGroup>
+    <TargetFramework>netcoreapp3.1</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Compile Remove="Migrations\20200714004502_Init.cs" />
+    <Compile Remove="Migrations\20200714004502_Init.Designer.cs" />
+    <Compile Remove="Migrations\20200714004748_Init.cs" />
+    <Compile Remove="Migrations\20200714004748_Init.Designer.cs" />
+    <Compile Remove="Migrations\20200714005113_Init.cs" />
+    <Compile Remove="Migrations\20200714005113_Init.Designer.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="microsoft.entityframeworkcore" Version="3.1.5" />
+    <PackageReference Include="microsoft.entityframeworkcore.proxies" Version="3.1.5" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite" Version="3.1.5" />
+    <PackageReference Include="microsoft.entityframeworkcore.sqlserver" Version="3.1.5" />
+    <PackageReference Include="microsoft.entityframeworkcore.tools" Version="3.1.5">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
+    <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="3.1.3" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="ViewModels\" />
+  </ItemGroup>
+
+
+</Project>
