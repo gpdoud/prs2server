@@ -86,7 +86,7 @@ namespace prs2server.Controllers {
             await _context.SaveChangesAsync();
 
             await RefreshRequestline(requestline);
-            await RecalculateRequestTotal(requestline.Request.Id);
+            await RecalculateRequestTotal(requestline.RequestId);
 
             return CreatedAtAction("GetRequestline", new { id = requestline.Id }, requestline);
         }

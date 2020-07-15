@@ -26,9 +26,10 @@ namespace prs2server.Controllers {
         }
 
         // GET: api/Requests/reviews/userid
-        [HttpGet("reviews/{userid}")]
+        [HttpGet("reviewed/{userid}")]
         public async Task<ActionResult<IEnumerable<Request>>> GetRequestsInReview(int userid) {
-            return await _context.Requests.Where(r => r.Status.Equals(StatusReview) && r.UserId != userid).ToListAsync();
+            return await _context.Requests.Where(r => r.Status.Equals(StatusReview) 
+                                                        && r.UserId != userid).ToListAsync();
         }
 
         // PUT: api/Requests/Review
@@ -39,14 +40,14 @@ namespace prs2server.Controllers {
         }
 
         // PUT: api/Requests/Approved
-        [HttpPut("approved")]
+        [HttpPut("approve")]
         public async Task<IActionResult> SetRequestToApproved(Request request) {
             request.Status = StatusApproved;
             return await PutRequest(request.Id, request);
         }
 
         // PUT: api/Requests/Rejected
-        [HttpPut("rejected")]
+        [HttpPut("reject")]
         public async Task<IActionResult> SetRequestToRejected(Request request) {
             request.Status = StatusRejected;
             return await PutRequest(request.Id, request);

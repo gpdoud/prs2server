@@ -22,8 +22,10 @@ namespace prs2server.Controllers {
         // GET: api/Users/Username/Password
         [HttpGet("{username}/{password}")]
         public async Task<ActionResult<User>> Login(string username, string password) {
-            return await _context.Users.SingleOrDefaultAsync(u => u.Username.Equals(username) 
+            var user = await _context.Users.SingleOrDefaultAsync(u => u.Username.Equals(username) 
                                                                 && u.Password.Equals(password));
+            if(user == null) return NotFound();
+            return user;
         }
 
         // GET: api/Users
