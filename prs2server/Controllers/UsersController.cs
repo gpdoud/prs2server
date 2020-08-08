@@ -46,6 +46,12 @@ namespace prs2server.Controllers {
             return user;
         }
 
+        // POST: api/Users/update/5
+        [HttpPost("update/{id}")]
+        public async Task<IActionResult> UpdateUser(int id, User user) {
+            return await PutUser(id, user);
+        }
+
         // PUT: api/Users/5
         // To protect from overposting attacks, enable the specific properties you want to bind to, for
         // more details, see https://go.microsoft.com/fwlink/?linkid=2123754.
@@ -79,6 +85,11 @@ namespace prs2server.Controllers {
             await _context.SaveChangesAsync();
 
             return CreatedAtAction("GetUser", new { id = user.Id }, user);
+        }
+        // POST: api/Users/delete/5
+        [HttpPost("delete/{id}")]
+        public async Task<ActionResult<User>> RemoveUser(int id) {
+            return await DeleteUser(id);
         }
 
         // DELETE: api/Users/5
