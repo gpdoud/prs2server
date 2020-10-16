@@ -25,6 +25,7 @@ namespace prs2server.Controllers {
             request.Total = (from r in request.Requestlines
                              select new { LineTotal = r.Quantity * r.Product.Price })
                             .Sum(x => x.LineTotal);
+            request.Status = "MODIFIED";
             await _context.SaveChangesAsync();
         } 
 
@@ -101,6 +102,7 @@ namespace prs2server.Controllers {
 
             _context.Requestlines.Remove(requestline);
             await _context.SaveChangesAsync();
+            await RecalculateRequestTotal(requestline.RequestId);
 
             return requestline;
         }
