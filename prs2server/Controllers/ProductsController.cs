@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Cryptography.X509Certificates;
 using System.Threading.Tasks;
 
 using Microsoft.AspNetCore.Http;
@@ -22,13 +23,17 @@ namespace prs2server.Controllers {
         // GET: api/Products
         [HttpGet]
         public async Task<ActionResult<IEnumerable<Product>>> GetProducts() {
-            return await _context.Products.ToListAsync();
+            return await _context.Products
+                                .Include(x => x.Vendor)
+                                .ToListAsync();
         }
 
         // GET: api/Products/5
         [HttpGet("{id}")]
         public async Task<ActionResult<Product>> GetProduct(int id) {
-            var product = await _context.Products.FindAsync(id);
+            var product = await _context.Products
+                                .Include(x => x.Vendor)
+                                .SingleOrDefaultAsync(p => p.Id == id);
 
             if(product == null) {
                 return NotFound();

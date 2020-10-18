@@ -27,7 +27,7 @@ namespace prs2server {
             services.AddControllers();
 
             services.AddDbContext<Prs2DbContext>(option => {
-                option.UseLazyLoadingProxies();
+                //option.UseLazyLoadingProxies(); // REMOVED
                 option.UseSqlServer(Configuration.GetConnectionString("Prs2DbContext"));
                 //option.UseSqlServer(Configuration.GetConnectionString("Winhost"));
             });

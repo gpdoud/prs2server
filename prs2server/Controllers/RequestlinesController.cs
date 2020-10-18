@@ -22,8 +22,11 @@ namespace prs2server.Controllers {
         private async Task RecalculateRequestTotal(int requestid) {
             var request = await _context.Requests.FindAsync(requestid);
             if(request == null) throw new Exception($"RecalculateRequestTotal: Request not found for id {requestid}");
-            request.Total = (from r in request.Requestlines
-                             select new { LineTotal = r.Quantity * r.Product.Price })
+            request.Total = (from l in _context.Requestlines
+                             join p in _context.Products
+                             on l.ProductId equals p.Id
+                             select new { 
+                                 LineTotal = l.Quantity * p.Price })
                             .Sum(x => x.LineTotal);
             request.Status = "MODIFIED";
             await _context.SaveChangesAsync();
